@@ -1,4 +1,4 @@
-# x = "John" / x='John' are the same
+# x = "John" / x = 'John' are the same
 # a = 5 / A = 5 are not the same
 
 
@@ -14,8 +14,8 @@ my-var = 20 is not legal
 my_var = 20 / Myvar = 20 / _myvar = 20 are legal to use 
 '''
 fruits = ['apple', 'banana', 'cherry']
-a , b, c =fruits
-print(a)#result will be apple
+a , b, c = fruits
+print(a) #apple
 
 a = "Hello"
 b = "World"
