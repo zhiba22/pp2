@@ -1,4 +1,4 @@
-#UNORDERED, UNCHANGEABLE, UNINDEXED, NO DUPLICATES
+#UNORDERED, UNINDEXED, NO DUPLICATES
 set1 = {"apple", "banana", "cherry"}
 
 #False and 0 
