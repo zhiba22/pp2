@@ -1,12 +1,12 @@
 class Upstring:
-    def __init__(self,string: str) -> None:
-        self.__string = string
+    def __init__(self,string: str):
+        self.string = string
     
     def getString(self):
-        return self.__string
+        return self.string
     
     def printString(self):
-        print(self.__string.upper())
+        print(self.string.upper())
 
         
 def main():
