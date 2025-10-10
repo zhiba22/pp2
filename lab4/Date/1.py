@@ -1,5 +1,5 @@
-import datetime as dt
-print(dt.date.today() - dt.timedelta(5))
+import datetime
+print(datetime.date.today() - datetime.timedelta(5))
 
 
 # first_date = dt.date(2020, 10, 2)
@@ -9,11 +9,3 @@ print(dt.date.today() - dt.timedelta(5))
 # print(delta)
 # print(dt.date.today() - delta)
 # print(print(type(delta)))
-
-from datetime import date, timedelta
-
-today = date.today()
-new_date = today - timedelta(days=5)
-
-print("Today:", today)
-print("5 days ago:", new_date)

@@ -1,7 +1,7 @@
 import math
 
 degree = float(input("Input degree: "))
-radian = math.radians(degree)  # встроенная функция math.radians()
+radian = math.radians(degree) 
 
 print("Output radian:", round(radian, 6))
 
