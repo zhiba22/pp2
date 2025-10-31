@@ -27,3 +27,22 @@ while True:
                 x = max(x - speed, radius)
             elif event.key == pygame.K_RIGHT:
                 x = min(x + speed, w - radius)
+
+
+        '''
+if event.key == pygame.K_UP:
+    if y - speed >= radius:  
+        y -= speed
+
+elif event.key == pygame.K_DOWN:
+    if y + speed <= h - radius:  
+        y += speed
+
+elif event.key == pygame.K_LEFT:
+    if x - speed >= radius:   
+        x -= speed
+
+elif event.key == pygame.K_RIGHT:
+    if x + speed <= w - radius:  
+        x += speed
+'''

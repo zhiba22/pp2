@@ -3,7 +3,7 @@ import pygame
 pygame.init()
 screen = pygame.display.set_mode((300, 300))
 
-songs = [r"C:\Users\zibek\Documents\Codes\pp2\lab7\Hole.mp3", r"C:\Users\zibek\Documents\Codes\pp2\lab7\Michael Jackson - Billie Jean.mp3"]
+songs = [r"C:\Users\zibek\Documents\Codes\pp2\lab7 - pygame\Hole.mp3", r"C:\Users\zibek\Documents\Codes\pp2\lab7 - pygame\Michael Jackson - Billie Jean.mp3"]
 current_song = 0
 
 pygame.mixer.music.load(songs[current_song])

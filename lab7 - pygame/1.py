@@ -16,9 +16,10 @@ from datetime import datetime
 
 pygame.init()
 
-base = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab7\base.jpg")
-left_hand = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab7\minute.png")
-right_hand = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab7\second.png")
+base = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab7 - pygame\base.jpg")
+left_hand = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab7 - pygame\minute.png")
+right_hand = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab7 - pygame\second.png")
+hour_hand = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab7 - pygame\second.png")
 
 screen = pygame.display.set_mode((900, 900))
 clock = pygame.time.Clock()
@@ -26,6 +27,7 @@ clock = pygame.time.Clock()
 mainclock_rect = base.get_rect(center=(450, 450))
 left_hand_rect = left_hand.get_rect(center=mainclock_rect.center)
 right_hand_rect = right_hand.get_rect(center=mainclock_rect.center)
+hour_hand_rect = hour_hand.get_rect(center=mainclock_rect.center)
 
 done = False
 
@@ -37,18 +39,22 @@ while not done:
     current_time = datetime.now().time()
 
     second_angle = current_time.second * 6
-    minutes_angle = current_time.minute * 6 + current_time.second / 20
+    minutes_angle = current_time.minute * 6 + current_time.second * 0.1
+    hour_angle = current_time.hour * 30 + current_time.minute / 2
 
     rt_left_hand = pygame.transform.rotate(left_hand, -second_angle)
     rt_right_hand = pygame.transform.rotate(right_hand, -minutes_angle)
+    rt_hour_hand = pygame.transform.rotate(hour_hand, -hour_angle)
 
     left_hand_rect = rt_left_hand.get_rect(center=mainclock_rect.center)
     right_hand_rect = rt_right_hand.get_rect(center=mainclock_rect.center)
+    hour_hand_rect = rt_hour_hand.get_rect(center=mainclock_rect.center)
 
     screen.blit(base, mainclock_rect)  
     screen.blit(rt_left_hand, left_hand_rect) 
-    screen.blit(rt_right_hand, right_hand_rect) 
+    screen.blit(rt_right_hand, right_hand_rect) # "накладывает"
+    screen.blit(rt_hour_hand, hour_hand_rect)
 
-    pygame.display.update([left_hand_rect, right_hand_rect])
+    pygame.display.update([left_hand_rect, right_hand_rect, hour_hand_rect])
 
     clock.tick(60)
