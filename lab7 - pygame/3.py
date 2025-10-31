@@ -1,5 +1,4 @@
 import pygame 
-import sys
 
 w, h = 500, 500
 screen = pygame.display.set_mode((w, h))
@@ -18,7 +17,6 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-            sys.exit()
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
