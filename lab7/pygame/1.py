@@ -16,10 +16,10 @@ from datetime import datetime
 
 pygame.init()
 
-base = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab7 - pygame\base.jpg")
-left_hand = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab7 - pygame\minute.png")
-right_hand = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab7 - pygame\second.png")
-hour_hand = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab7 - pygame\second.png")
+base = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab7\pygame\base.jpg")
+left_hand = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab7\pygame\minute.png")
+right_hand = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab7\pygame\second.png")
+hour_hand = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab7\pygame\second.png")
 
 screen = pygame.display.set_mode((900, 900))
 clock = pygame.time.Clock()
@@ -40,7 +40,7 @@ while not done:
 
     second_angle = current_time.second * 6
     minutes_angle = current_time.minute * 6 + current_time.second * 0.1
-    hour_angle = current_time.hour * 30 + current_time.minute / 2
+    hour_angle = (current_time.hour % 12) * 30 + current_time.minute * 0.5
 
     rt_left_hand = pygame.transform.rotate(left_hand, -second_angle)
     rt_right_hand = pygame.transform.rotate(right_hand, -minutes_angle)
