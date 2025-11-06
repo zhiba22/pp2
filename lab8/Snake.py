@@ -4,8 +4,8 @@ import sys
 
 pygame.init()
 
-SCREEN_WIDTH = 600
-SCREEN_HEIGHT = 600
+WIDTH = 600
+HEIGHT = 600
 CELL_SIZE = 20
 
 WHITE = (255, 255, 255)
@@ -14,7 +14,7 @@ RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Snake Game")
 
 font = pygame.font.SysFont("Verdana", 24)
@@ -42,8 +42,8 @@ speed = 10
 def generate_food():
     """Generate food in a random cell that is not on the snake."""
     while True:
-        x = random.randrange(0, SCREEN_WIDTH, CELL_SIZE)
-        y = random.randrange(0, SCREEN_HEIGHT, CELL_SIZE)
+        x = random.randrange(0, WIDTH, CELL_SIZE)
+        y = random.randrange(0, HEIGHT, CELL_SIZE)
         if (x, y) not in snake:  # Make sure food not on snake
             return (x, y)
 
@@ -102,9 +102,9 @@ while True:
     # If snake hits wall → game over
     if (
         head_x < 0
-        or head_x >= SCREEN_WIDTH
+        or head_x >= WIDTH
         or head_y < 0
-        or head_y >= SCREEN_HEIGHT
+        or head_y >= HEIGHT
     ):
         pygame.quit()
         sys.exit()
