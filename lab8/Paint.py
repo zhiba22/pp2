@@ -9,26 +9,25 @@ x = 0
 y = 0
 mode = 'blue'
 
-def line(surface, start, end, color, width):
-    """Рисует линию на заданной поверхности."""
+def line(surface, start, end, color, width): # draws a line in a surface
     # Для создания более толстой линии без просветов
     try:
         pygame.draw.line(surface, color, start, end, width)
     except:
         pass
 
-def rectangle(surface, p1, p2, color, width):
-    x1, y1 = p1
+def rectangle(surface, p1, p2, color, width): # draws a rectangle from two corner points
+    x1, y1 = p1 # рисуетт прямоугольник по двум противоположным углам
     x2, y2 = p2
-    rect = pygame.Rect(min(x1, x2), min(y1, y2), abs(x1 - x2), abs(y1 - y2))
+    rect = pygame.Rect(min(x1, x2), min(y1, y2), abs(x1 - x2), abs(y1 - y2)) # creates a rect using the smallest x/y and absolute width/height
     pygame.draw.rect(surface, color, rect, width)
 
-def circle(surface, p1, p2, color, width):
+def circle(surface, p1, p2, color, width): # function for circle drawing
     center_x = (p1[0] + p2[0]) // 2
     center_y = (p1[1] + p2[1]) // 2
     center = (center_x, center_y)
 
-    final_r = int(math.hypot(p1[0] - center_x, p1[1] - center_y))
+    final_r = int(math.hypot(p1[0] - center_x, p1[1] - center_y)) # calculate radius using distance from center to one point
 
     if final_r > 0:
         pygame.draw.circle(surface, color, center, final_r, width)
@@ -39,7 +38,7 @@ def main():
     pygame.display.set_caption("Paint")
     clock = pygame.time.Clock()
 
-    global canvas
+    global canvas # separate surface for permanent drawings
     canvas = pygame.Surface((WIDTH, HEIGHT))
     canvas.fill(background_color)
 
@@ -48,10 +47,10 @@ def main():
     current_tool = 'pencil'
     current_color = (0,0,0)
 
-    start_pos = None
+    start_pos = None # for shapes
     is_drawing = False
 
-    points = []
+    points = [] # stores points for freehand drawing 
 
     while True:
         
@@ -92,50 +91,46 @@ def main():
                 elif event.key == pygame.K_4:
                     current_color = (0,0,0)
             
-            # Обработка нажатий мыши
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1: # Левая кнопка: Начало рисования/выделения
+                if event.button == 1: # left click - start drawing
                     is_drawing = True
                     start_pos = event.pos
                     
-                    # Имитация добавления точек для совместимости с drawLineBetween
-                    points = [event.pos] 
+                    points = [event.pos] # reset stroke tracking
                     
-                elif event.button == 4: # Скролл вверх: Увеличить толщину
+                elif event.button == 4: # increase brush size
                     radius = min(200, radius + 1)
-                elif event.button == 5: # Скролл вниз: Уменьшить толщину
+                elif event.button == 5: # decrease brush size
                     radius = max(1, radius - 1)
             
             elif event.type == pygame.MOUSEBUTTONUP:
-                if event.button == 1: # Левая кнопка отпущена: Фиксация фигуры
+                if event.button == 1: # finalize shape
                     is_drawing = False
                     end_pos = event.pos
                     
-                    # 1. Фиксация прямоугольника (Draw rectangle)
+                    # Фиксация прямоугольника
                     if current_tool == 'rect' and start_pos:
                         rectangle(canvas, start_pos, end_pos, current_color, line_width)
                     
-                    # 2. Фиксация круга (Draw circle)
+                    # Фиксация круга
                     elif current_tool == 'circle' and start_pos:
                         circle(canvas, start_pos, end_pos, current_color, line_width)
                     
                     start_pos = None
-                    points = [] # Очищаем точки после завершения рисования
+                    points = [] # reset shape start point
             
             elif event.type == pygame.MOUSEMOTION:
                 if is_drawing:
                     if current_tool in ('pencil', 'eraser'):
-                        # 3. Ластик (Eraser) и Карандаш
                         # Для непрерывного рисования добавляем точки
                         position = event.pos
                         if points:
-                            # Здесь используется слегка измененная drawLineBetween
-                            # Она теперь рисует на CANVAS, а не на screen
                             color_mode = 'eraser' if current_tool == 'eraser' else current_color
                             drawLineBetween(canvas, len(points), points[-1], position, radius, color_mode)
+
                         points.append(position)
                         
-                        # Удаление старых точек (как в оригинале)
+                        # Ограничиваем длину списка точек для оптимизации
                         points = points[-256:]
         screen.fill((255, 255, 255))
         screen.blit(canvas, (0,0))
@@ -143,8 +138,8 @@ def main():
         if is_drawing and start_pos and current_tool in ('rect', 'circle'):
             current_pos = pygame.mouse.get_pos()
             
-            # Предварительный просмотр фигуры: рисуем на 'screen', а не на 'CANVAS'
-            # (чтобы она исчезала в следующем кадре, если не зафиксирована)
+            # Предварительный просмотр фигуры: рисуем на screen, а не на canvas
+            # чтобы она исчезала в следующем кадре, если не зафиксирована
             if current_tool == 'rect':
                 rectangle(screen, start_pos, current_pos, current_color, line_width)
             elif current_tool == 'circle':
@@ -152,8 +147,10 @@ def main():
         # draw all points
         i = 0
         while i < len(points) - 1:
-            drawLineBetween(screen, i, points[i], points[i + 1], radius, mode)
+            color_mode = background_color if current_tool == 'eraser' else current_color   # если текущий инструмент — ластик, нужно стирать цветом фона
+            drawLineBetween(screen, i, points[i], points[i + 1], radius, color_mode)
             i += 1
+
         
         pygame.display.flip()
         
