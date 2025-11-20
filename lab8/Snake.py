@@ -22,10 +22,10 @@ font = pygame.font.SysFont("Verdana", 24)
 clock = pygame.time.Clock()
 
 
-# Helper function to draw text on screen
+# а function to draw text on screen
 def draw_text(text, color, x, y):
-    surface = font.render(text, True, color)
-    screen.blit(surface, (x, y))
+    surface = font.render(text, True, color) # создаем поверхность с текстом
+    screen.blit(surface, (x, y)) # накладываем текст на экран
 
 
 # Initialize snake and food
@@ -39,8 +39,7 @@ level = 1
 speed = 10  
 
 
-def generate_food():
-    """Generate food in a random cell that is not on the snake."""
+def generate_food(): #Generate food in a random cell that is not on the snake
     while True:
         x = random.randrange(0, WIDTH, CELL_SIZE)
         y = random.randrange(0, HEIGHT, CELL_SIZE)
@@ -67,7 +66,7 @@ while True:
         snake_dir = "RIGHT"
 
     # Move the snake by adding a new head
-    head_x, head_y = snake[0]
+    head_x, head_y = snake[0] # a coordinate of a head 
     if snake_dir == "UP":
         head_y -= CELL_SIZE
     elif snake_dir == "DOWN":
@@ -99,7 +98,7 @@ while True:
         speed = 10 + (level - 1) * 3  # Increase speed each level
 
 
-    # If snake hits wall → game over
+    # If snake hits wall game over
     if (
         head_x < 0
         or head_x >= WIDTH
@@ -109,7 +108,7 @@ while True:
         pygame.quit()
         sys.exit()
 
-    # If snake hits itself → game over
+    # If snake hits itself game over
     if new_head in snake[1:]:
         pygame.quit()
         sys.exit()

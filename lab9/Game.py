@@ -23,6 +23,7 @@ SCREEN_HEIGHT = 600
 SPEED = 5
 SCORE = 0
 COIN_SCORE = 0
+COIN_WEIGHTS = {1: 0.6, 2: 0.3, 3: 0.1}
 
 #Setting up Fonts
 font = pygame.font.SysFont("Verdana", 60)
@@ -36,6 +37,8 @@ DISPLAYSURF = pygame.display.set_mode((400,600))
 DISPLAYSURF.fill(WHITE)
 pygame.display.set_caption("Game")
 
+def choose_coin_weight():
+    return random.choices(list(COIN_WEIGHTS.keys()), list(COIN_WEIGHTS.values()))[0]
 
 class Enemy(pygame.sprite.Sprite):
       def __init__(self):
@@ -70,10 +73,8 @@ class Player(pygame.sprite.Sprite):
               if pressed_keys[K_RIGHT]:
                   self.rect.move_ip(5, 0)
     def collect_coin(self, coins):
-        collisions = pygame.sprite.spritecollide(self, coins, True)
-        for coin in collisions:
-            return True
-        return False
+        return pygame.sprite.spritecollide(self, coins, True)
+
                   
 class Coin(pygame.sprite.Sprite):   # Define Coin as a sprite (inherits from pygame's Sprite)
     def __init__(self):     # runs when a Coin object is created
@@ -81,10 +82,12 @@ class Coin(pygame.sprite.Sprite):   # Define Coin as a sprite (inherits from pyg
         self.image = pygame.image.load(r"C:\Users\zibek\Documents\Codes\pp2\lab8\Coin.png")
         self.rect = self.image.get_rect()       # Get rectangle for the image
         self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)       # Set initial position: random X, Y = 0
+        self.weight = choose_coin_weight()
 
     def move(self):
         self.rect.move_ip(0, SPEED)     # Move the coin downward by SPEED pixels  // object used to change the position of the rectangle in place.
         if self.rect.top > 600:     # If the coin goes below the screen
+            self.weight = choose_coin_weight()
             self.rect.top = 0       # Reset it to the top
             self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)       # Give it a new random X position
 
@@ -130,11 +133,18 @@ while True:
         entity.move()
         DISPLAYSURF.blit(entity.image, entity.rect)
         
-    if P1.collect_coin(coins):
-        COIN_SCORE += 1
+    collected = P1.collect_coin(coins)
+    if collected:
+        for coin in collected:
+            COIN_SCORE += coin.weight    # weighted score
+
+        # Spawn new coin
         new_coin = Coin()
         coins.add(new_coin)
         all_sprites.add(new_coin)
+
+        if COIN_SCORE % 5 == 0:  #  changing enemy's speed depending on score 
+            SPEED += 1
 
     #To be run if collision occurs between Player and Enemy
     if pygame.sprite.spritecollideany(P1, enemies):
