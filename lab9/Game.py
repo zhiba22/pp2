@@ -38,7 +38,7 @@ DISPLAYSURF.fill(WHITE)
 pygame.display.set_caption("Game")
 
 def choose_coin_weight():
-    return random.choices(list(COIN_WEIGHTS.keys()), list(COIN_WEIGHTS.values()))[0]
+    return random.choices(list(COIN_WEIGHTS.keys()), list(COIN_WEIGHTS.values()))[0] # random.choices(population, weights=None, *, cum_weights=None, k=1)
 
 class Enemy(pygame.sprite.Sprite):
       def __init__(self):

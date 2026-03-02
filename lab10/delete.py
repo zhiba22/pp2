@@ -1,7 +1,7 @@
 import psycopg2
 from config import load_config
 
-def delete_by_any_column(column, value):
+def delete(column, value):
     config = load_config()
     try:
         with psycopg2.connect(**config) as connection:
@@ -12,6 +12,4 @@ def delete_by_any_column(column, value):
 
 
 if __name__ == "__main__":
-    delete_by_any_column("name", "Артем")
-
-    # Пресс Ф Артем
+    delete("name", "Zhibek")
